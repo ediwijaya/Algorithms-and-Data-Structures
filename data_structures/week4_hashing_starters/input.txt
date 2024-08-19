@@ -1,0 +1,7 @@
+python phone_book.py <<< "8" <<< "find 3839442" <<< "add 123456 me" <<< "add 0 granny" <<< "find 0" <<< "find 123456" <<< "del 0" <<< "del 0" <<< "find 0"
+python phone_book.py <<< "12" <<< "add 911 police" <<< "add 76213 Mom" <<< "add 17239 Bob" <<< "find 7621
+3" <<< "find 910" <<< "find 911" <<< "del 910" <<< "del 911" <<< "find 911" <<< "find 76213" <<< "add 76213 daddy" <<< "find 76213"
+
+python hash_chains.py <<< "5" <<< "12" <<< "add world" <<< "add HellO" <<< "check 4" <<< "find World" <<< "find world" <<< "del world" <<< "check 4" <<< "del HellO" <<< "add luck" <<< "add GooD" <<< "check 2" <<< "del good"
+python hash_chains.py <<< "4" <<< "8" <<< "add test" <<< "add test" <<< "find test" <<< "del test" <<< "find test" <<< "find Test" <<< "add Test" <<< "find Test"
+python hash_chains.py <<< "3" <<< "12" <<< "check 0" <<< "find help" <<< "add help" <<< "add del" <<< "add add" <<< "find add" <<< "find del" <<< "del del" <<< "find del" <<< "check 0" <<< "check 1" <<< "check 2"
