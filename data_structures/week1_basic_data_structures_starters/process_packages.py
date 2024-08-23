@@ -20,7 +20,7 @@ class Buffer:
         # write your code here
         while self.finish_time_: # clearing irrelevant finish_time
             if self.finish_time_[0] <= request.arrival_time:
-                self.finish_time_.popleft() #self.finish_time_.pop(0) if using deque
+                self.finish_time_.pop(0) #self.finish_time_.popleft() if using deque
             else:
                 break
         
