@@ -1,4 +1,5 @@
 # python3
+from collections import deque
 
 class Request:
     def __init__(self, arrival_time, process_time):
@@ -13,13 +14,13 @@ class Response:
 class Buffer:
     def __init__(self, size):
         self.size = size
-        self.finish_time_ = []
+        self.finish_time_ = [] # deque() as alternative
 
     def Process(self, request):
         # write your code here
         while self.finish_time_: # clearing irrelevant finish_time
             if self.finish_time_[0] <= request.arrival_time:
-                self.finish_time_.pop(0)
+                self.finish_time_.popleft() #self.finish_time_.pop(0) if using deque
             else:
                 break
         
