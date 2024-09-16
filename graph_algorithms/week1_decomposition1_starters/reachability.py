@@ -27,10 +27,12 @@ class Graph:
 
     def explore(self, v) -> None:
         self.visited[v] = True
+        self.previsit(v)
         self.cc_num[v] = self.cc
         for w in self.adj[v]:
             if not self.visited[w]:
                 self.explore(w)
+        self.postvisit(v)
 
     def depth_first_search(self) -> None:
         for v in range(self.num_vertex):
