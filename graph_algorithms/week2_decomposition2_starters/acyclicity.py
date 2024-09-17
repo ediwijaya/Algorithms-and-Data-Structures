@@ -11,7 +11,7 @@ class GraphDirected:
         # self.post = [0] * num_vertex
         # self.cc_num = [-1] * num_vertex # connectivity_cluster_num
         # self.cc = 0 # connectivity_cluster
-        self.clock = 1
+        # self.clock = 1
         self.adj = [[] * self.num_vertex]
 
     def assign_adj(self, adj) -> None:
