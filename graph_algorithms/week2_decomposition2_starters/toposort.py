@@ -13,7 +13,6 @@ class GraphDirected:
         self.cc = 0 # connectivity_cluster
         self.clock = 1
         self.adj = [[] * self.num_vertex]
-        self.order = []
 
     def assign_adj(self, adj) -> None:
         self.adj = adj
@@ -34,7 +33,6 @@ class GraphDirected:
             if not self.visited[w]:
                 self.explore(w)
         self.postvisit(v)
-        self.order.append(v)
 
     def depth_first_search(self) -> None:
         for v in range(self.num_vertex):
