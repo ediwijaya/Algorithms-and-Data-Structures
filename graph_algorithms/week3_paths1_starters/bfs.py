@@ -1,18 +1,18 @@
 #Uses python3
 
 import sys
-import queue
+from collections import deque
 
 def breadth_first_search(adj, origin):
     dist = [float('inf')] * len(adj)
     dist[origin] = 0
-    q = queue.Queue()
-    q.put(origin)
-    while not q.empty():
-        u = q.get()
+    q = deque()
+    q.append(origin)
+    while len(q) > 0:
+        u = q.popleft()
         for v in adj[u]:
             if dist[v] == float('inf'):
-                q.put(v)
+                q.append(v)
                 dist[v] = dist[u] + 1
     return dist
 
