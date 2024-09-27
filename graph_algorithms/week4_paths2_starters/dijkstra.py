@@ -13,7 +13,7 @@ def distance(adj, cost, s, t):
     for _ in range(len(heap)-1):
         u = heap.index(min(heap))
         idx = 0
-        heap[u] = float('inf')
+        heap[u] = float('inf') # equivalent to remove this queue
         for v in adj[u]:
             if dist[v] > dist[u] + cost[u][idx]:
                 dist[v] = dist[u] + cost[u][idx]
