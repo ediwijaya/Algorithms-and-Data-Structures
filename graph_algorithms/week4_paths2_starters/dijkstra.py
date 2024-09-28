@@ -12,14 +12,12 @@ def distance(adj, cost, s, t):
     heap = list(dist) # Implement heap as list
     for _ in range(len(heap)-1):
         u = heap.index(min(heap))
-        idx = 0
-        heap[u] = float('inf') # equivalent to remove this queue
-        for v in adj[u]:
-            if dist[v] > dist[u] + cost[u][idx]:
-                dist[v] = dist[u] + cost[u][idx]
+        for i, v in enumerate(adj[u]): # to access w(u,v), we should use its relative index
+            if dist[v] > dist[u] + cost[u][i]: # as the implementation is array.
+                dist[v] = dist[u] + cost[u][i]
                 prev[v] = u
                 heap[v] = dist[v]
-            idx += 1
+        heap[u] = float('inf') # equivalent to remove this queue
 
     return -1 if dist[t] == float('inf') else dist[t]
 
@@ -40,5 +38,8 @@ if __name__ == '__main__':
     print(distance(adj, cost, s, t))
 
 # python dijkstra.py <<< "4 4" <<< "1 2 1" <<< "4 1 2" <<< "2 3 2" <<< "1 3 5" <<< "1 3"
+### output: 3
 # python dijkstra.py <<< "5 9" <<< "1 2 4" <<< "1 3 2" <<< "2 3 2" <<< "3 2 1" <<< "2 4 2" <<< "3 5 4" <<< "5 4 1" <<< "2 5 3" <<< "3 4 4" <<< "1 5"
+### output: 6
 # python dijkstra.py <<< "3 3" <<< "1 2 7" <<< "1 3 5" <<< "2 3 2" <<< "3 2"
+### output: -1
