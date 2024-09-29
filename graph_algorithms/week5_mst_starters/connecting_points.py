@@ -17,8 +17,27 @@ def convert_to_vertices_list(x_list, y_list):
         result.append(Node(x_list[i], y_list[i]))
     return result
 
-def minimum_distance(x, y):
-    result = 0
+# def minimum_distance(x, y): # using heapq. Works well when E = V^2 (very dense)
+#     n_point = len(x)
+#     vertices = convert_to_vertices_list(x, y)
+
+#     cost = [float('inf')] * n_point
+#     parent = [None] * n_point
+#     solution = []
+#     cost[0] = 0 # Distance to itself is always 0
+#     q = [(cost, i) for i, cost in enumerate(cost)]
+#     heapq.heapify(q)
+#     while q:
+#         _, v = heapq.heappop(q)
+#         solution.append(v)
+#         for z in range(n_point):
+#             if z not in solution and cost[z] > calc_distance(vertices[z], vertices[v]):
+#                 cost[z] = calc_distance(vertices[z], vertices[v])
+#                 parent[z] = v
+#                 heapq.heappush(q, (cost[z], z))
+#     return sum(cost)
+
+def minimum_distance(x, y): # approach using list. Works well if E close to V
     n_point = len(x)
     vertices = convert_to_vertices_list(x, y)
 
@@ -26,16 +45,16 @@ def minimum_distance(x, y):
     parent = [None] * n_point
     solution = []
     cost[0] = 0 # Distance to itself is always 0
-    q = [(cost, i) for i, cost in enumerate(cost)]
-    heapq.heapify(q)
-    while q:
-        _, v = heapq.heappop(q)
+    q = list(cost)
+    for v in range(n_point):
+        v = q.index(min(q))
         solution.append(v)
         for z in range(n_point):
             if z not in solution and cost[z] > calc_distance(vertices[z], vertices[v]):
                 cost[z] = calc_distance(vertices[z], vertices[v])
                 parent[z] = v
-                heapq.heappush(q, (cost[z], z))
+                q[z] = cost[z] # change priority
+        q[v] = float('inf')
     return sum(cost)
 
 if __name__ == '__main__':
