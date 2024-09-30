@@ -31,6 +31,7 @@ def clustering(x, y, k):
     n_point = len(x)
     vertices = convert_to_vertices_list(x, y)
     edge_list = []
+    n_cluster = len(x)
     for i in range(n_point): # calculate all possible combination of all point
         for j in range(i+1, n_point):
             dist = calc_distance(vertices[i], vertices[j])
@@ -41,10 +42,10 @@ def clustering(x, y, k):
     edge_sorted = sorted(edge_list)
     for distance, i, j in edge_sorted:
         if find(i) != find(j):
-            current_cluster = len(set(parent))
-            if current_cluster == k:
+            if n_cluster == k:
                 break
             union(i, j)
+            n_cluster -= 1
     return distance
 
 if __name__ == '__main__':
