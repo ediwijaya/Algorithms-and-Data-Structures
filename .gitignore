@@ -10,3 +10,4 @@
 
 # Local copies of previous implementations; history is retained on main.
 .practice-archive/
+*.pyc
