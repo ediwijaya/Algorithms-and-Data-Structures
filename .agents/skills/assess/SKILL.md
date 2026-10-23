@@ -54,11 +54,49 @@ problem solving. Follow the repository's AGENTS.md.
 
 ## Report
 
-Keep the report concise:
-- Verdict and supporting evidence, including any validation limitations.
-- Time and space complexity with a short derivation.
-- Constraint fit: suitable, unsuitable, or uncertain, with reasons.
-- One next hint for an unresolved issue; otherwise the most useful improvement
-  or a statement that no material improvement is needed.
+Use the following numbered sections in order. Keep each section brief and
+include evidence rather than a score or unsupported acceptance claim.
+
+### 1. Status
+
+Use one of these verdicts:
+- **PASS (available checks):** All executed checks passed, correctness review
+  found no unresolved issue, and the implementation fits the documented
+  constraints. State the validation scope; this is not official judge acceptance.
+- **FAIL:** A valid counterexample, runtime error, output violation, or
+  demonstrated incompatibility with a documented constraint was found.
+  Identify the reason, such as Wrong Answer, Runtime Error, or Constraint Failure.
+- **INCONCLUSIVE:** Validation or constraint information is insufficient, or a
+  suspected issue remains unresolved. Do not force uncertainty into PASS or FAIL.
+
+### 2. Test results
+
+Summarize executed checks in a compact table with columns Case, Expected,
+Observed, and Result. Group repetitive passing cases when useful. Distinguish
+tests actually run from manual reasoning or suggested tests. If nothing was
+run, say so. For a failure, include one small valid input that reproduces it
+and the relevant code location. Do not invent hidden-test coverage, runtime
+percentiles, or memory measurements.
+
+### 3. Complexity
+
+Define the input-size variables. Report time and auxiliary space bounds with
+a short explanation of the operations or allocations responsible for each.
+State total space separately when relevant, including input storage.
+
+### 4. Constraint fit
+
+Report **Suitable**, **Unsuitable**, or **Uncertain** against the sourced input
+bounds and any time or memory limits. Distinguish an asymptotic assessment
+from measured performance; identify limits that remain unverified. A local
+timeout alone does not establish an official Time Limit Exceeded verdict.
+
+### 5. Next step
+
+For an unresolved issue, give one small actionable hint or tracing question,
+without revealing the fix or intended algorithm. Otherwise, describe the most
+useful improvement at the level permitted by the learner's progress, or state
+that no material improvement is needed. Separate necessary fixes from optional
+optimizations and avoid manufacturing style issues to fill this section.
 
 Prioritize correctness and constraint failures over style suggestions.
