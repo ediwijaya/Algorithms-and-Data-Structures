@@ -6,5 +6,8 @@
     "github.copilot.nextEditSuggestions.enabled": false,
     "geminicodeassist.inlineSuggestions.enableAuto": false,
     "geminicodeassist.inlineSuggestions.nextEditPredictions": false,
-    "geminicodeassist.rules": "This repository is for DSA practice. Follow AGENTS.md: give one small hint at a time by default. Do not reveal complete solutions or edit exercise implementations unless requested. Provide more direct help when the learner says they are stuck, asks for a solution, or requests another perspective on a completed solution."
+    "geminicodeassist.rules": "This repository is for DSA practice. Follow AGENTS.md: give one small hint at a time by default. Do not reveal complete solutions or edit exercise implementations unless requested. Provide more direct help when the learner says they are stuck, asks for a solution, or requests another perspective on a completed solution.",
+    "files.exclude": {
+        "**/.practice-archive": true
+    }
 }

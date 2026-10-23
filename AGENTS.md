@@ -32,3 +32,14 @@ finishing exercises for them.
 
 These learning constraints apply to exercises. Carry out requested workspace
 configuration, tooling, and documentation work normally.
+
+## Refresh round
+
+- On `practice/refresh`, use the existing problem starter subfolders linked in
+  `PROGRESS.md`. Keep one implementation per exercise in its starter file;
+  do not recreate solved copies directly under the week folders.
+- Preserve the supplied starter contents unless the learner asks to change them.
+- `main` and `.practice-archive/` contain previous work. Do not read their
+  implementations unless the learner explicitly requests a comparison.
+- Track practice in `PROGRESS.md`. Do not mark an exercise Solved without
+  evidence from the learner or validation; initial status is Not started.
