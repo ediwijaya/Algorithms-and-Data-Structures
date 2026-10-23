@@ -1,2 +1,9 @@
 .DS_Store
 */.DS_Store
+
+# Keep non-Python starters locally; focus version control on Python.
+*.cpp
+*.java
+*.hs
+*.js
+*.scala
