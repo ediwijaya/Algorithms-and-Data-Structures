@@ -1,10 +1,63 @@
 #Uses python3
+import subprocess
 import sys
+import unittest
 
 
 def reach(adj, x, y):
     #write your code here
-    return 0
+    visited = [False] * len(adj)
+    explore(adj, x, visited)
+    return int(visited[y])
+
+def explore(adj, v, visited):
+    visited[v] = True
+    for w in adj[v]:
+        if not visited[w]:
+            explore(adj, w, visited)
+
+# Testing Line
+
+class TestReach(unittest.TestCase):
+    """Tests for graph reachability."""
+
+    def test_sample_inputs(self) -> None:
+        """Check complete program input and output."""
+        cases = [
+            (
+                "sample_1",
+                """\
+4 4
+1 2
+3 2
+4 3
+1 4
+1 4
+""",
+                "1",
+            ),
+            (
+                "sample_1",
+                """\
+4 2
+1 2
+3 4
+1 4
+""",
+                "0",
+            ),
+        ]
+
+        for name, input_text, expected in cases:
+            with self.subTest(case=name):
+                result = subprocess.run(
+                    [sys.executable, __file__],
+                    input=input_text,
+                    text=True,
+                    capture_output=True,
+                    check=True,
+                )
+                self.assertEqual(result.stdout.strip(), expected)
 
 if __name__ == '__main__':
     input = sys.stdin.read()
