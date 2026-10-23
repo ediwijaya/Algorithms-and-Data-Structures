@@ -3,18 +3,24 @@ import subprocess
 import sys
 import unittest
 
+sys.setrecursionlimit(5000)
 
 def reach(adj, x, y):
     #write your code here
     visited = [False] * len(adj)
-    explore(adj, x, visited)
+    explore(adj, x, visited, target=y)
     return int(visited[y])
 
-def explore(adj, v, visited):
+def explore(adj, v, visited, target):
     visited[v] = True
     for w in adj[v]:
+        if w == target:
+            visited[w] = True
+            break
         if not visited[w]:
-            explore(adj, w, visited)
+            explore(adj, w, visited, target)
+            if visited[target] == True:
+                break
 
 # Testing Line
 
