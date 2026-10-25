@@ -24,8 +24,8 @@ def explore(adj, v, visited, target):
 
 # Testing Line
 
-class TestReach(unittest.TestCase):
-    """Tests for graph reachability."""
+class TestCases(unittest.TestCase):
+    """Tests for cases."""
 
     def test_sample_inputs(self) -> None:
         """Check complete program input and output."""

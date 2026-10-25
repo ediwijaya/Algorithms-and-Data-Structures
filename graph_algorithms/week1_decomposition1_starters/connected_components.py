@@ -23,8 +23,8 @@ def explore(v, adj, visited, counter, cc_group):
         if not visited[w]:
             explore(w, adj, visited, counter, cc_group)
 
-class TestReach(unittest.TestCase):
-    """Tests for graph reachability."""
+class TestCases(unittest.TestCase):
+    """Tests cases."""
 
     def test_sample_inputs(self) -> None:
         """Check complete program input and output."""
