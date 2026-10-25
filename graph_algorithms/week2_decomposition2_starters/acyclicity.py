@@ -5,11 +5,18 @@ import unittest
 
 sys.setrecursionlimit(5000)
 
+class Clock:
+    def __init__(self):
+        self.counter = 0
+
+    def increment(self):
+        self.counter += 1
+
 
 def acyclic(adj):
     visited = [False] * len(adj)
     is_cyclic = [False]
-    clock = [0]
+    clock = Clock()
     preorder = [None] * len(adj)
     postorder = [None] * len(adj)
     for v in range(len(adj)):
@@ -18,8 +25,8 @@ def acyclic(adj):
     return int(is_cyclic[0])
 
 def explore(adj, v, visited, is_cyclic, clock, preorder, postorder):
-    clock[0] += 1
-    preorder[v] = clock[0]
+    clock.increment()
+    preorder[v] = clock.counter
     visited[v] = True
     for w in adj[v]:
         if not visited[w]:
@@ -27,8 +34,9 @@ def explore(adj, v, visited, is_cyclic, clock, preorder, postorder):
         else:
             if postorder[w] is None:
                 is_cyclic[0] = True
-    clock[0] += 1
-    postorder[v] = clock[0]
+                break
+    clock.increment()
+    postorder[v] = clock.counter
 
 
 # Testing Line
