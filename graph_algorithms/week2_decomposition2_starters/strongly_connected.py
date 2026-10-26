@@ -34,7 +34,6 @@ def number_of_strongly_connected_components(adj, adj_rev):
     scc_counter = 1
     for v in postorder_rev:
         if not visited[v]:
-            scc[v] = scc_counter
             explore(adj, v, visited, scc, scc_counter)
             scc_counter += 1
     return len(set(scc))
@@ -112,7 +111,6 @@ if __name__ == '__main__':
     adj = [[] for _ in range(n)]
     for (a, b) in edges:
         adj[a - 1].append(b - 1)
-    adj_rev = adj[::-1]
     edges_rev = [(b, a) for (a, b) in edges]
     adj_rev = [[] for _ in range(n)]
     for (a, b) in edges_rev:
