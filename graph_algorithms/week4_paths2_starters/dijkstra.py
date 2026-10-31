@@ -21,21 +21,15 @@ def dijkstra(adj, A, cost):
     for v in range(len(dist)):
         heapq.heappush(heap, (dist[v], v))
     while heap:
-        _, u = heapq.heappop(heap)
+        queued_dist, u = heapq.heappop(heap)
+        if queued_dist > dist[u]:
+            continue
         for i, v in enumerate(adj[u]):
             if dist[v] > dist[u] + cost[u][i]:
                 dist[v] = dist[u] + cost[u][i]
                 prev[v] = u
                 heapq.heappush(heap, (dist[v], v))
-            else:
-                continue
     return dist
-
-def relax(adj, u, v, cost, prev):
-    if adj[v] > adj[u] + cost[u][v]:
-        adj[v] = adj[u] + cost[u][v]
-        prev[v] = u
-
 
 class TestCases(unittest.TestCase):
     """Tests for cases."""
