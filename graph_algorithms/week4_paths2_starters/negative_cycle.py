@@ -7,9 +7,6 @@ sys.setrecursionlimit(10000)
 
 def negative_cycle(adj, cost):
     dist = [sys.maxsize] * len(adj)
-    # visited = [False] * len(adj)
-    S = 0
-    dist[S] = 0
     for _ in range(len(adj) - 1):
         for u in range(len(adj)):
             for i, v in enumerate(adj[u]):
