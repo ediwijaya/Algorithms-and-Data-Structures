@@ -44,6 +44,14 @@ also has local backup copies of the 60 removed implementations under
 `.practice-archive/`; that folder is ignored by Git and hidden in VS Code.
 Ask explicitly before using either archive to compare solutions.
 
-The development interpreter is Python 3.15, selected by `.python-version`.
-Use `.venv/bin/python` in VS Code. Project metadata retains Python 3.14 as the
-compatibility minimum.
+## Running Python exercises
+
+Plain Python is enough: this project has no third-party dependencies.
+The development version is Python 3.15.2, selected by `.python-version`;
+project metadata keeps Python 3.14 as the compatibility minimum.
+
+Use `.venv/bin/python` in VS Code, or run an exercise with an installed Python:
+
+```sh
+python3 path/to/exercise.py
+```
