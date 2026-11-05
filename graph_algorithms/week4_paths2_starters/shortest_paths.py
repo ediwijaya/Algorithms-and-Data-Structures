@@ -20,12 +20,11 @@ def shortest_paths(adj, cost, s, distance, reachable, shortest):
                         reachable[u] = 1
 
     temp_distance = copy.deepcopy(distance)
-    # Perform 1 more iteration or 5th loop for detection of negative cycle
+    # Perform V more iteration for detection of negative cycle
     for _ in range(len(adj)):
         for v in range(len(adj)):
             for i, u in enumerate(adj[v]):
-                if distance[u] > distance[v] + cost[v][i]:
-                    distance[u] = distance[v] + cost[v][i]
+                distance[u] = min(distance[u], distance[v] + cost[v][i])
 
     for i in range(len(distance)):
         if distance[i] != temp_distance[i]:
