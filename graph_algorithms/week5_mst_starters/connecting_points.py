@@ -13,7 +13,8 @@ class Point:
 
         Args:
             x: X-coordinate of the point.
-            y: Y-coordinate of the point."""
+            y: Y-coordinate of the point.
+        """
         self.x = x
         self.y = y
 
