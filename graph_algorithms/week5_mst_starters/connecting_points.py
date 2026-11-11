@@ -11,10 +11,79 @@ class Point:
         self.x = x
         self.y = y
 
-def minimum_distance(x, y): # MST Problem. We can use either Kruskal or Prims algo. We use Prims variant here with assumption N*(N-1)/2 edges.
+def minimum_distance(x: list[int], y: list[int]) -> float:
+    """Compute the Euclidean MST weight using linear-scan Prim.
+
+    Edge distances are calculated on demand. Each of n rounds scans the
+    points to update connection costs and select the next outside vertex.
+    Time is O(n^2); auxiliary and total space are O(n), including the
+    temporary selection list and point objects.
+
+    Args:
+        x: X-coordinates of the nonempty set of points.
+        y: Matching y-coordinates, with the same length as x.
+
+    Returns:
+        The minimum total length needed to connect all points.
+
+    Example:
+        >>> minimum_distance([0, 3], [0, 4])
+        5.0
+    """
     point = [Point(x, y) for x, y in zip(x, y)]
 
-    # start the adjacency list and weight calculation:
+    # start the Prim's algorithms
+    result = 0.
+    dist = [float('inf')] * len(point)
+    in_tree = [False] * len(point)
+
+    curr_vertex = 0
+    dist[curr_vertex] = 0
+    curr_min_dist = dist[curr_vertex]
+
+    for _ in range(len(point)):
+        in_tree[curr_vertex] = True
+        result += curr_min_dist
+        for j in range(len(point)):
+            if curr_vertex != j:
+                temp_dist = get_dist(point[curr_vertex], point[j])
+                if (not in_tree[j]) and (dist[j] > temp_dist):
+                    dist[j] = temp_dist
+
+        if sum(in_tree) < len(in_tree):
+            dist_not_in_tree = [d if not in_tree[i] else float('inf') for i, d in enumerate(dist)]
+            curr_min_dist = min(dist_not_in_tree)
+            curr_vertex = dist_not_in_tree.index(curr_min_dist)
+        else:
+            break
+    
+    return result
+
+def minimum_distance_heap(x: list[int], y: list[int]) -> float:
+    """Compute the Euclidean MST weight using the previous heap-based Prim.
+
+    This preserves the earlier implementation for comparison with
+    minimum_distance: construct the complete graph, then grow the tree
+    using a min-heap of candidate connection costs. Improved costs create
+    new entries; entries for vertices already accepted are skipped.
+
+    For n points, graph construction takes O(n^2) time and space. There
+    can be O(n^2) heap entries in total, each costing O(log n) to push or
+    pop. Overall time is O(n^2 log n), and auxiliary and total space are
+    O(n^2). The parent list records chosen connections but is not returned.
+
+    Args:
+        x: X-coordinates of the nonempty set of points.
+        y: Matching y-coordinates, with the same length as x.
+
+    Returns:
+        The minimum total length needed to connect all points.
+
+    Example:
+        >>> minimum_distance_heap([0, 3], [0, 4])
+        5.0
+    """
+    point = [Point(x, y) for x, y in zip(x, y)]
     adj = [[] for _ in range(len(point))]
     cost = [[] for _ in range(len(point))]
     for i in range(len(point)):
@@ -23,12 +92,10 @@ def minimum_distance(x, y): # MST Problem. We can use either Kruskal or Prims al
                 adj[i].append(j)
                 cost[i].append(get_dist(point[i], point[j]))
 
-    # start the Prim's algorithms
     result = 0.
     dist = [float('inf')] * len(point)
     parent = [None] * len(point)
     in_tree = [False] * len(point)
-
     start_vertex = 0
     dist[start_vertex] = 0
     heap = []
