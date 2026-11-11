@@ -9,10 +9,45 @@ sys.setrecursionlimit(500000)
 
 def distance(adj, cost, s, t):
     #write your code here
+    """Find a shortest directed path weight using heap-based Dijkstra.
+
+    Requires nonnegative edge weights. For n vertices and m edges,
+    time is O((n + m) log(n + m)) and auxiliary space is O(n + m)
+    because the heap can contain outdated entries. Total space
+    including input and graph storage is O(n + m).
+
+    Args:
+        adj: Zero-based adjacency lists of a directed graph.
+        cost: Parallel weights; cost[u][i] belongs to u -> adj[u][i].
+        s: Source vertex index.
+        t: Target vertex index.
+
+    Returns:
+        The shortest path weight, or -1 if t is unreachable.
+
+    Example:
+        >>> distance([[1], []], [[7], []], 0, 1)
+        7"""
     dist = dijkstra(adj, s, cost)
     return dist[t] if dist[t] < float('inf') else -1
 
 def dijkstra(adj, A, cost):
+    """Compute shortest distances using a heap with lazy priority updates.
+
+    All vertices initially enter the heap, with only A at distance
+    zero. Improvements push new entries; entries with an outdated
+    distance are skipped before scanning edges. The predecessor list
+    is maintained internally but is not returned. With n vertices and
+    m edges, time is O((n + m) log(n + m)) and auxiliary space is O(n + m).
+    Edge weights must be nonnegative.
+
+    Args:
+        adj: Zero-based adjacency lists of a directed graph.
+        A: Source vertex index.
+        cost: Weights aligned by position with each adjacency list.
+
+    Returns:
+        Minimum distances from A; unreachable vertices retain infinity."""
     prev = [None] * len(adj)
     dist = [float('inf')] * len(adj)
 

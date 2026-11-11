@@ -8,6 +8,23 @@ sys.setrecursionlimit(500000)
 
 def bipartite(adj):
     #write your code here
+    """Check two-colorability using BFS levels followed by DFS validation.
+
+    BFS assigns finite levels separately in every component. Level
+    parity defines a proposed color, and DFS checks that every edge
+    joins different colors. For n vertices and m adjacency entries,
+    time is O(n + m), auxiliary space is O(n) including queue and
+    recursion, and total space with graph storage is O(n + m).
+
+    Args:
+        adj: Zero-based adjacency lists of an undirected graph.
+
+    Returns:
+        1 if the graph is bipartite, otherwise 0.
+
+    Example:
+        >>> bipartite([[1], [0], []])
+        1"""
     is_bipartite = [True]
     dist = bfs(adj)
     color_map = [x % 2 for x in dist] # make sure that odd is 1 and even is 0
@@ -21,16 +38,19 @@ def bipartite(adj):
     return int(is_bipartite[0])
 
 def bfs(adj):
-    """Compute shortest-path distances from a source vertex using BFS.
+    """Assign BFS distances from one chosen root per component.
+
+    Each unvisited component root starts at distance zero, preserving
+    levels assigned in previous components. Every vertex is eventually
+    reached, including isolated vertices. The predecessor list is
+    internal and is not returned. Time is O(n + m) and auxiliary space
+    is O(n) for n vertices and m adjacency entries.
 
     Args:
-        adj: Adjacency list representing the graph.
-        a: Zero-based index of the source vertex (root).
+        adj: Zero-based adjacency lists of an undirected graph.
 
     Returns:
-        A list of distances from ``a`` to each vertex. Unreachable vertices
-        have an infinite distance.
-    """
+        Finite edge-count distances from each vertex's component root."""
     dist = [float('inf')] * len(adj)
     visited = [False] * len(adj)
     prev = [None] * len(adj)
@@ -53,6 +73,18 @@ def bfs(adj):
     return dist
 
 def explore(adj, v, visited, color_map, is_bipartite):
+    """Check that edges in a DFS exploration connect opposite colors.
+
+    Mutates visited and sets is_bipartite[0] to False on a conflict.
+    The flag is shared across recursive calls. Worst-case time is
+    O(n + m) and recursion space is O(n).
+
+    Args:
+        adj: Zero-based adjacency lists of the graph.
+        v: Vertex to explore.
+        visited: Shared discovery flags.
+        color_map: Proposed colors, 0 or 1, derived from BFS levels.
+        is_bipartite: One-element Boolean list recording validity."""
     visited[v] = True
     curr_color = color_map[v]
     expected_next_color = (curr_color + 1) % 2

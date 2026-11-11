@@ -6,6 +6,16 @@ import unittest
 sys.setrecursionlimit(500000)
 
 def dfs(adj, v, visited, order):
+    """Append vertices to order when their recursive exploration finishes.
+
+    The order list and visited flags are updated in place. Worst-case
+    time is O(n + m) and stack space is O(n).
+
+    Args:
+        adj: Zero-based adjacency lists of a directed graph.
+        v: Vertex to explore.
+        visited: Shared discovery flags.
+        order: Shared list collecting vertices in DFS postorder."""
     visited[v] = True
     for w in adj[v]:
         if not visited[w]:
@@ -13,6 +23,23 @@ def dfs(adj, v, visited, order):
     order.append(v)
 
 def toposort(adj):
+    """Return a topological ordering by reversing DFS postorder.
+
+    The input is assumed to be a directed acyclic graph; this function
+    does not check for cycles. All components are explored. For n
+    vertices and m adjacency entries, time is O(n + m) and auxiliary
+    space is O(n), including recursion and the reversed list. Total
+    space with graph storage is O(n + m).
+
+    Args:
+        adj: Zero-based adjacency lists of a directed acyclic graph.
+
+    Returns:
+        Vertex indices in a topological ordering.
+
+    Example:
+        >>> toposort([[1], []])
+        [0, 1]"""
     visited = [0] * len(adj)
     order = []
     for v in range(len(adj)):

@@ -7,28 +7,41 @@ import unittest
 sys.setrecursionlimit(500000)
 
 def distance(adj, s, t):
-    """Compute the shortest distance from `s` to `t`
-    
+    """Find the minimum number of edges between two vertices using BFS.
+
+    For n vertices and m adjacency entries, time is O(n + m) and
+    auxiliary space is O(n), including distances and the BFS queue.
+    Total space including the supplied graph is O(n + m).
+
     Args:
-        adj: Adjacency list representing the graph
-        s: Zero-based index of the source of the vertex (root).
-        t: Zero-based target distance form the source `s`.
-    """
+        adj: Zero-based adjacency lists of an unweighted graph.
+        s: Source vertex index.
+        t: Target vertex index.
+
+    Returns:
+        The shortest edge count, or -1 if t is unreachable from s.
+
+    Example:
+        >>> distance([[1], [0, 2], [1]], 0, 2)
+        2"""
     #write your code here
     dist = bfs(adj, s)
     return dist[t] if dist[t] != float('inf') else -1
 
 def bfs(adj, a):
-    """Compute shortest-path distances from a source vertex using BFS.
+    """Compute unweighted distances from a source in breadth-first order.
+
+    A finite distance also records that a vertex has been discovered,
+    so each reachable vertex enters the queue once. The predecessor
+    list is maintained internally but is not returned. For n vertices
+    and m adjacency entries, time is O(n + m) and auxiliary space is O(n).
 
     Args:
-        adj: Adjacency list representing the graph.
-        a: Zero-based index of the source vertex (root).
+        adj: Zero-based adjacency lists of an unweighted graph.
+        a: Source vertex index.
 
     Returns:
-        A list of distances from ``a`` to each vertex. Unreachable vertices
-        have an infinite distance.
-    """
+        Distances measured in edges; unreachable vertices retain infinity."""
     dist = [float('inf')] * len(adj)
     prev = [None] * len(adj)
     dist[a] = 0

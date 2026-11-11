@@ -6,6 +6,16 @@ import unittest
 sys.setrecursionlimit(40000)
 
 def dfs(adj, v, visited, order):
+    """Collect DFS postorder by appending each vertex after its descendants.
+
+    Mutates visited and order. Worst-case time is O(n + m) and recursion
+    space is O(n).
+
+    Args:
+        adj: Zero-based adjacency lists of a directed graph.
+        v: Vertex to explore.
+        visited: Shared discovery flags.
+        order: Shared list collecting finishing order."""
     visited[v] = True
     for w in adj[v]:
         if not visited[w]:
@@ -13,6 +23,16 @@ def dfs(adj, v, visited, order):
     order.append(v)
 
 def get_reverse_postorder(adj):
+    """Return reversed DFS finishing order across all components.
+
+    For n vertices and m adjacency entries, time is O(n + m) and
+    auxiliary space is O(n), including recursion and the reversed copy.
+
+    Args:
+        adj: Zero-based adjacency lists of a directed graph.
+
+    Returns:
+        All vertex indices in reverse postorder."""
     visited = [0] * len(adj)
     order = []
     for v in range(len(adj)):
@@ -21,6 +41,17 @@ def get_reverse_postorder(adj):
     return order[::-1]
 
 def explore(adj, v, visited, scc, scc_counter):
+    """Label the unvisited vertices reachable from v in the current pass.
+
+    Mutates visited and scc. Worst-case time is O(n + m) and recursion
+    space is O(n).
+
+    Args:
+        adj: Zero-based adjacency lists of the original directed graph.
+        v: Starting vertex index.
+        visited: Shared discovery flags.
+        scc: Shared component labels.
+        scc_counter: Label assigned to this exploration."""
     visited[v] = True
     scc[v] = scc_counter
     for w in adj[v]:
@@ -28,6 +59,24 @@ def explore(adj, v, visited, scc, scc_counter):
             explore(adj, w, visited, scc, scc_counter)
 
 def number_of_strongly_connected_components(adj, adj_rev):
+    """Count strongly connected components using two DFS passes.
+
+    First obtain reverse postorder on the reversed graph, then explore
+    the original graph in that order, labeling each DFS tree. This is
+    Kosaraju's method. For n vertices and m directed edges, time is
+    O(n + m) and auxiliary space is O(n), including recursion, ordering,
+    labels, and their set. Total space including both graphs is O(n + m).
+
+    Args:
+        adj: Zero-based adjacency lists of the original directed graph.
+        adj_rev: Adjacency lists with every original edge reversed.
+
+    Returns:
+        The number of strongly connected components.
+
+    Example:
+        >>> number_of_strongly_connected_components([[1], [0]], [[1], [0]])
+        1"""
     postorder_rev = get_reverse_postorder(adj_rev)
     visited = [False] * len(adj)
     scc = [0] * len(adj)

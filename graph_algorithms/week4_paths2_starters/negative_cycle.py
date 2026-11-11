@@ -6,6 +6,26 @@ import unittest
 sys.setrecursionlimit(10000)
 
 def negative_cycle(adj, cost):
+    """Detect a negative-weight directed cycle anywhere using Bellman-Ford.
+
+    All distances start at the finite integer sys.maxsize. Arithmetic
+    on this finite value allows negative edges to begin relaxation in
+    every component, even without a designated source. These labels
+    are not single-source shortest distances. After n - 1 passes, an
+    extra pass on a copy detects whether any label can still decrease.
+    For n vertices and m edges, time is O(n(n + m)), auxiliary space is
+    O(n), and total space including graph and input storage is O(n + m).
+
+    Args:
+        adj: Zero-based adjacency lists of a directed graph.
+        cost: Integer weights; cost[u][i] belongs to u -> adj[u][i].
+
+    Returns:
+        1 if any component contains a negative-weight cycle, otherwise 0.
+
+    Example:
+        >>> negative_cycle([[1], [0]], [[-2], [1]])
+        1"""
     dist = [sys.maxsize] * len(adj)
     for _ in range(len(adj) - 1):
         for u in range(len(adj)):

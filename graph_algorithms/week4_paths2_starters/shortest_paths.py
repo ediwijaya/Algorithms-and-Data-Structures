@@ -9,6 +9,36 @@ sys.setrecursionlimit(10000)
 
 def shortest_paths(adj, cost, s, distance, reachable, shortest):
     # Perform V-1 iteration of Bellman-Ford
+    """Classify source reachability and negative-cycle effects in place.
+
+    Run n - 1 Bellman-Ford passes to find finite shortest distances,
+    then save a copy and perform n additional passes. A changed
+    distance identifies a vertex affected by a reachable negative
+    cycle, including vertices downstream from that cycle. Unreachable
+    vertices retain infinity. Distances for affected vertices are
+    intermediate labels, not finite shortest-path answers.
+
+    For n vertices and m edges, time is O(n(n + m)) and auxiliary space
+    is O(n), including the distance snapshot. Total space with input
+    and graph storage is O(n + m).
+
+    Args:
+        adj: Zero-based adjacency lists of a directed graph.
+        cost: Parallel weights; cost[v][i] belongs to v -> adj[v][i].
+        s: Source vertex index.
+        distance: Shared labels, initially infinity; updated in place.
+        reachable: Shared flags, initially 0; set to 1 for reachable vertices.
+        shortest: Shared flags, initially 1; set to 0 where no finite
+            shortest path exists because of reachable negative cycles.
+
+    Returns:
+        None. The three supplied state lists carry the results.
+
+    Example:
+        >>> d, r, finite = [float('inf')] * 2, [0] * 2, [1] * 2
+        >>> shortest_paths([[1], []], [[5], []], 0, d, r, finite)
+        >>> (d, r, finite)
+        ([0, 5], [1, 1], [1, 1])"""
     distance[s] = 0
     reachable[s] = 1
     for _ in range(len(adj) - 1):

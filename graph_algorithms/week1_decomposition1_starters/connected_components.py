@@ -6,6 +6,23 @@ import unittest
 sys.setrecursionlimit(5000)
 
 def number_of_components(adj):
+    """Count connected components by labeling each DFS tree.
+
+    A new component label is assigned whenever an unvisited vertex starts
+    an exploration. The number of distinct labels gives the answer.
+    For n vertices and m adjacency entries, time is O(n + m), auxiliary
+    space is O(n) including labels, the set, and recursion, and total
+    space with graph storage is O(n + m).
+
+    Args:
+        adj: Zero-based adjacency lists of an undirected graph.
+
+    Returns:
+        The number of connected components.
+
+    Example:
+        >>> number_of_components([[1], [0], []])
+        2"""
     visited = [False] * len(adj)
     cc_group = [0] * len(adj)
     counter = 1
@@ -17,6 +34,16 @@ def number_of_components(adj):
     return len(set(cc_group))
 
 def explore(v, adj, visited, counter, cc_group):
+    """Assign one component label to every vertex reachable from v.
+
+    Worst-case time is O(n + m) and recursion space is O(n).
+
+    Args:
+        v: Starting vertex index.
+        adj: Zero-based adjacency lists of the undirected graph.
+        visited: Shared discovery flags, updated in place.
+        counter: Label for this connected component.
+        cc_group: Shared component labels, updated in place."""
     visited[v] = True
     cc_group[v] = counter
     for w in adj[v]:

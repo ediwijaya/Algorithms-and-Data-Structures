@@ -7,11 +7,42 @@ sys.setrecursionlimit(5000)
 
 def reach(adj, x, y):
     #write your code here
+    """Check whether two vertices are connected using recursive DFS.
+
+    Exploration starts at x and stops early once y is reached. The shared
+    visited list records discovery across recursive calls. For n vertices
+    and m adjacency entries, worst-case time is O(n + m) and auxiliary
+    space is O(n), including the recursion stack; total space with the
+    supplied graph is O(n + m).
+
+    Args:
+        adj: Adjacency lists of an undirected graph, indexed from zero.
+        x: Source vertex index.
+        y: Target vertex index.
+
+    Returns:
+        1 if a path exists from x to y, otherwise 0.
+
+    Example:
+        >>> reach([[1], [0]], 0, 1)
+        1"""
     visited = [False] * len(adj)
     explore(adj, x, visited, target=y)
     return int(visited[y])
 
 def explore(adj, v, visited, target):
+    """Mark vertices reachable from v until the target is discovered.
+
+    The same visited list is mutated by every recursive call. Finding the
+    target stops the current loop; callers also stop after observing its
+    visited flag. Worst-case time is O(n + m) and recursion space is O(n)
+    for a graph with n vertices and m adjacency entries.
+
+    Args:
+        adj: Zero-based adjacency lists.
+        v: Vertex from which to explore.
+        visited: Shared Boolean discovery flags, updated in place.
+        target: Vertex whose discovery ends exploration."""
     visited[v] = True
     for w in adj[v]:
         if w == target:

@@ -6,14 +6,34 @@ import unittest
 sys.setrecursionlimit(5000)
 
 class Clock:
+    """Track a shared counter for DFS entry and exit timestamps."""
     def __init__(self):
+        """Initialize the traversal counter to zero."""
         self.counter = 0
 
     def increment(self):
+        """Advance the shared timestamp by one in O(1) time."""
         self.counter += 1
 
 
 def acyclic(adj):
+    """Detect a directed cycle using unfinished DFS vertices.
+
+    Despite the function name, the result is 1 when a cycle exists.
+    An edge to a visited vertex with no postorder timestamp indicates
+    a back edge to the active recursion path. For n vertices and m
+    adjacency entries, time is O(n + m), auxiliary space is O(n), and
+    total space with the graph is O(n + m).
+
+    Args:
+        adj: Zero-based adjacency lists of a directed graph.
+
+    Returns:
+        1 if the graph contains a directed cycle, otherwise 0.
+
+    Example:
+        >>> acyclic([[1], [0]])
+        1"""
     visited = [False] * len(adj)
     is_cyclic = [False]
     clock = Clock()
@@ -25,6 +45,20 @@ def acyclic(adj):
     return int(is_cyclic[0])
 
 def explore(adj, v, visited, is_cyclic, clock, preorder, postorder):
+    """Explore a DFS tree and flag back edges to unfinished vertices.
+
+    Entry and exit timestamps and discovery flags are mutated in place.
+    A discovered vertex lacking an exit timestamp is still on the active
+    DFS path. Worst-case time is O(n + m) and stack space is O(n).
+
+    Args:
+        adj: Zero-based adjacency lists of a directed graph.
+        v: Vertex to explore.
+        visited: Shared discovery flags.
+        is_cyclic: One-element Boolean list storing cycle detection.
+        clock: Shared Clock instance used for traversal timestamps.
+        preorder: Shared entry timestamps, initially None.
+        postorder: Shared exit timestamps, initially None."""
     clock.increment()
     preorder[v] = clock.counter
     visited[v] = True

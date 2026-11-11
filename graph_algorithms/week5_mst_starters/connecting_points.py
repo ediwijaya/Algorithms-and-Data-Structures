@@ -7,7 +7,13 @@ import unittest
 
 
 class Point:
+    """Store a point's Cartesian coordinates for distance calculations."""
     def __init__(self, x, y) -> None:
+        """Store the supplied x- and y-coordinates without modification.
+
+        Args:
+            x: X-coordinate of the point.
+            y: Y-coordinate of the point."""
         self.x = x
         self.y = y
 
@@ -117,6 +123,16 @@ def minimum_distance_heap(x: list[int], y: list[int]) -> float:
     return result
 
 def get_dist(point_1, point_2):
+    """Calculate the Euclidean distance between two points.
+
+    Time and auxiliary space are O(1) for assignment-sized coordinates.
+
+    Args:
+        point_1: First Point instance.
+        point_2: Second Point instance.
+
+    Returns:
+        The nonnegative straight-line distance between the points."""
     return math.sqrt((point_1.x - point_2.x)**2 + (point_1.y - point_2.y)**2)
 
 class TestCases(unittest.TestCase):
