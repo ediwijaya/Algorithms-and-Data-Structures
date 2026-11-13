@@ -32,31 +32,53 @@ def get_dist(point_1, point_2):
     return math.sqrt((point_1.x - point_2.x)**2 + (point_1.y - point_2.y)**2)
 
 class UnionFind:
-    """Data Structures and Algorithms for Disjoint Set Union"""
+    """Maintain disjoint sets with union by rank and path compression.
+
+    Tracks connected components across vertices labeled from 0 to n - 1.
+    Operations achieve near-constant amortized time proportional to the
+    inverse Ackermann function alpha(n).
+    """
     def __init__(self, n: int) -> None:
-        """Initiate the Disjoin Set Union.
+        """Initialize disjoint sets for n individual vertices.
 
         Args:
-            n: Total number of node/vertex in graph.
+            n: Total number of vertices in the graph.
         """
         self.parents = list(range(n))
         self.rank = [0] * n
         self.components = n
 
     def find(self, x: int) -> int:
-        """Perform finding parent of vertex using log* complexity.
-        
+        """Find the representative root of the set containing vertex x.
+
+        Applies path compression to flatten the tree during traversal,
+        achieving near-constant amortized lookup time.
+
         Args:
-            x: Vertex we want to get the parent for.
-        
+            x: Vertex index whose root representative is requested.
+
         Returns:
-            Parent of vertex x.
+            The representative root index of vertex x.
         """
         if self.parents[x] != x:
             self.parents[x] = self.find(self.parents[x])
         return self.parents[x]
 
     def union(self, a: int, b: int) -> bool:
+        """Merge the sets containing vertices a and b using union by rank.
+
+        If a and b belong to distinct sets, the root with lower rank is
+        attached beneath the root with higher rank. If ranks are equal,
+        one becomes the parent and its rank is incremented.
+
+        Args:
+            a: First vertex index.
+            b: Second vertex index.
+
+        Returns:
+            True if the sets were merged, or False if a and b already
+            belonged to the same set.
+        """
         root_a, root_b = self.find(a), self.find(b)
 
         if root_a == root_b:
@@ -70,26 +92,43 @@ class UnionFind:
         return True
 
     def connected(self, a: int, b: int) -> bool:
+        """Check whether vertices a and b belong to the same component.
+
+        Args:
+            a: First vertex index.
+            b: Second vertex index.
+
+        Returns:
+            True if a and b have the same representative root, else False.
+        """
         return self.find(a) == self.find(b)
 
 def clustering(x, y, k) -> float:
-    """Cluster min distance between k clusters k of (x, y) points coordinate using Kruskal's Algorithm.
+    """Compute the maximum spacing of a k-clustering using Kruskal's algorithm.
 
-    Algorithms:
-        1. Calculate distance edges between all points O(n * (n-1)).
-            Create `cluster_edge`, a integer, to record which edge belong to in a cluster.
-            Its default is None, which mean it does not belongs to any.
-        2. Initiate n = len(point) cluster (each point is its own cluster).
-        3. For each points, add shorted edges not in its own cluster. Cluster them using UnionFind.
-        4. Repeat step 3 until n cluster is k.
-        5. Create dummy program by copying last n-k state.
-        6. Continue another for final k+1 next edge to join and return it is value.
-        The problem becomes (n - k + 1)th successful merged edge.
+    Pairwise Euclidean distances are computed across all point pairs to form
+    a complete directed edge list of size n(n - 1). Edges are sorted in
+    ascending order by distance. A Union-Find data structure iteratively merges
+    components until reaching the threshold boundary (n - k + 1) successful
+    merges, extracting the minimum distance between points in different clusters.
+
+    For n points and k clusters, generating edges takes O(n^2) time and space.
+    Sorting the n(n - 1) edges takes O(n^2 log n) time. Disjoint-set operations
+    take O(n^2 * alpha(n)) time. Overall time is O(n^2 log n), and auxiliary and
+    total space are O(n^2).
 
     Args:
+        x: X-coordinates of the points.
+        y: Y-coordinates of the points, matching x in length.
+        k: Number of non-empty clusters to form (2 <= k <= len(x)).
 
     Returns:
-        The minimum distance of between any points in different cluster(max of the minimum).
+        The maximum value d such that the distance between any two points
+        from different clusters is at least d.
+
+    Example:
+        >>> clustering([3, 1, 4, 9, 9, 8, 3, 4], [1, 2, 6, 8, 9, 9, 11, 12], 4)
+        5.0
     """
     point = [Point(x, y) for x, y in zip(x, y)]
     adj = [[] for _ in range(len(point))]
