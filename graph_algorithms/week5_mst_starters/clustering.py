@@ -103,17 +103,17 @@ class UnionFind:
         """
         return self.find(a) == self.find(b)
 
-def clustering(x, y, k) -> float:
+def clustering(x: list[int], y: list[int], k: int) -> float:
     """Compute the maximum spacing of a k-clustering using Kruskal's algorithm.
 
     Pairwise Euclidean distances are computed across all point pairs to form
-    a complete directed edge list of size n(n - 1). Edges are sorted in
+    a complete undirected edge list of size n(n - 1)/2. Edges are sorted in
     ascending order by distance. A Union-Find data structure iteratively merges
     components until reaching the threshold boundary (n - k + 1) successful
     merges, extracting the minimum distance between points in different clusters.
 
     For n points and k clusters, generating edges takes O(n^2) time and space.
-    Sorting the n(n - 1) edges takes O(n^2 log n) time. Disjoint-set operations
+    Sorting the n(n - 1)/2 edges takes O(n^2 log n) time. Disjoint-set operations
     take O(n^2 * alpha(n)) time. Overall time is O(n^2 log n), and auxiliary and
     total space are O(n^2).
 
@@ -131,33 +131,26 @@ def clustering(x, y, k) -> float:
         5.0
     """
     point = [Point(x, y) for x, y in zip(x, y)]
-    adj = [[] for _ in range(len(point))]
     cost = []
-    for i in range(len(adj)):
-        for j in range(len(adj)):
-            if i != j:
-                adj[i].append(j)
-                cost.append((get_dist(point[i], point[j]), i, j)) # format list of (cost, i, j)
+    for i in range(len(point)):
+        for j in range(i+1, len(point)):
+            cost.append((get_dist(point[i], point[j]), i, j)) # list of (cost, i, j) tuple
     
 
     # Perform Kruskal's Algorithms
-    sorted_cost_indices = [i for i, _ in sorted(enumerate(cost), key=lambda x: x[1][0])]
+    cost.sort(key=lambda edge: edge[0])
     n = len(point)
-    uf = UnionFind(n) # each i is its own vertex index
+    uf = UnionFind(n)
     counter = 0
-    last_idx = 0
+    result = 0.
     boundary = n - k + 1
-    for idx in sorted_cost_indices:
+    for dist, i, j in cost:
         if counter < boundary:
-            # Get index i and j of the idx edge
-            curr_edge = cost[idx]
-            i, j = curr_edge[1], curr_edge[2]
             if uf.union(i, j):
                 counter += 1
-        else:
-            last_idx = idx
-            break
-    result = cost[last_idx][0]
+            if counter == boundary:
+                result = dist
+                break
     return result
 
 class TestCases(unittest.TestCase):
